@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Macro Facts: Purdue Dining</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍗</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#E4E6E9; --panel:#FFFFFF; --ink:#000000; --muted:#5F6269; --rule:#000000; --hair:#C9CBCF;
+  --gold:#DAAA00; --gold-soft:#F6E7AE; --blue:#6E9CC4; --blue-soft:#D6E5F2;
+  --font:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#17181A; --panel:#0A0A0A; --ink:#F4F4F2; --muted:#A3A6AD; --rule:#F4F4F2; --hair:#3A3C40;
+    --gold:#E8BD2A; --gold-soft:#4A3D0E; --blue:#8DB6DA; --blue-soft:#1C3347;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#17181A; --panel:#0A0A0A; --ink:#F4F4F2; --muted:#A3A6AD; --rule:#F4F4F2; --hair:#3A3C40;
+  --gold:#E8BD2A; --gold-soft:#4A3D0E; --blue:#8DB6DA; --blue-soft:#1C3347;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.4;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.label{max-width:880px;margin:24px auto 48px;background:var(--panel);border:3px solid var(--rule);padding:14px 22px 26px}
+@media (max-width:640px){.label{margin:0;border-width:0 0 3px;padding:12px 14px 22px}}
+h1{font-size:clamp(3rem,11vw,5.6rem);font-weight:900;font-stretch:72%;line-height:.88;margin:0 0 4px;letter-spacing:-.01em}
+.sub{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-size:.95rem;color:var(--muted)}
+.thick{border:0;border-top:12px solid var(--rule);margin:10px 0 8px}
+.mid{border:0;border-top:5px solid var(--rule);margin:8px 0}
+.thin{border:0;border-top:1px solid var(--rule);margin:0}
+button,input{font:inherit;color:inherit}
+.controls{display:grid;gap:10px;margin:6px 0 4px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.row .lbl{font-weight:800;min-width:4.5em}
+.chip{border:2px solid var(--rule);background:transparent;padding:4px 11px;border-radius:999px;cursor:pointer;font-weight:600;font-size:.92rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.chip:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.search{border:2px solid var(--rule);background:transparent;border-radius:999px;padding:4px 12px;min-width:0;flex:1 1 180px}
+/* hero */
+.verdict{font-size:clamp(1.6rem,5.2vw,2.5rem);font-weight:900;font-stretch:80%;line-height:1.02;margin:4px 0 6px}
+.plate{margin:0 0 4px;font-size:1.02rem;max-width:68ch}
+.note{margin:6px 0 0;font-size:.92rem;color:var(--muted);max-width:70ch}
+/* ranking */
+.rank{list-style:none;margin:0;padding:0}
+.rank li{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:7px 0;border-bottom:1px solid var(--rule)}
+.rank li:last-child{border-bottom:0}
+.rank .court{font-weight:800;font-size:1.12rem}
+.rank .score{font-weight:900;font-size:1.12rem;text-align:right}
+.rank .counts{grid-column:1/-1;font-size:.88rem;color:var(--muted)}
+.rank .bar{grid-column:1/-1;height:6px;background:var(--hair)}
+.rank .bar i{display:block;height:100%;background:var(--ink)}
+.rank .closed{color:var(--muted);font-weight:600}
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-weight:800;font-size:.95rem;padding:2px 0}
+.hdr span:last-child{font-weight:600;color:var(--muted)}
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.86rem;margin:6px 0 2px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+/* courts */
+details.court{border-top:5px solid var(--rule)}
+details.court>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0}
+details.court>summary::-webkit-details-marker{display:none}
+details.court>summary h3{margin:0;font-size:1.55rem;font-weight:900;font-stretch:82%}
+details.court>summary .meta{font-size:.88rem;color:var(--muted);text-align:right}
+details.court>summary h3::before{content:"+";display:inline-block;width:1.1em;font-stretch:100%}
+details.court[open]>summary h3::before{content:"−"}
+.station{font-weight:800;font-size:.95rem;padding:10px 0 3px;border-bottom:3px solid var(--rule)}
+.cols,.item{display:grid;grid-template-columns:minmax(0,1fr) 3.4em 3.6em 3.6em 3.2em 4.4em;gap:0 8px;align-items:baseline}
+.cols{font-size:.78rem;font-weight:700;color:var(--muted);padding:4px 0 2px}
+.cols span:not(:first-child),.item .v{text-align:right}
+.item{padding:6px 0;border-bottom:1px solid var(--hair)}
+.item .name{font-weight:600}
+.item .ratio{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
+.item .why{display:block;font-size:.8rem;color:var(--muted)}
+.item .v{font-size:.95rem}
+.item.nodata .name{color:var(--muted);font-weight:500}
+.item.nodata .v{color:var(--muted)}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;padding:1px 7px;border-radius:3px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.t-lean{background:var(--gold);color:#000}
+.t-protein{background:var(--gold-soft);color:var(--ink);border:1.5px solid var(--gold)}
+.t-carb{background:var(--blue-soft);color:var(--ink);border:1.5px solid var(--blue)}
+.t-close{background:transparent;border:1.5px dashed var(--muted);color:var(--muted)}
+.hl-protein .name{background:linear-gradient(transparent 55%,var(--gold-soft) 55%)}
+.hl-lean .name{background:var(--gold);color:#000;padding:0 4px;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-carb .name{background:linear-gradient(transparent 55%,var(--blue-soft) 55%)}
+.close-protein .name{text-decoration:underline dashed var(--gold) 2px;text-underline-offset:4px}
+.close-carb .name{text-decoration:underline dashed var(--blue) 2px;text-underline-offset:4px}
+.empty{padding:10px 0;color:var(--muted)}
+.foot{margin-top:18px;font-size:.84rem;color:var(--muted);max-width:72ch}
+.foot p{margin:4px 0}
+@media (max-width:640px){
+  .cols{display:none}
+  .item{grid-template-columns:repeat(5,minmax(0,1fr));row-gap:2px}
+  .item>div:first-child{grid-column:1/-1}
+  .item .v{text-align:left;font-size:.85rem}
+  .item .v::before{content:attr(data-k) " ";color:var(--muted);font-size:.75rem}
+}
+@media (prefers-reduced-motion:no-preference){ .bar i{transition:width .4s ease} }
+</style>
+</head>
+<body>
+<main class="label" id="app">
+  <h1>Macro Facts</h1>
+  <div class="sub"><span>Purdue dining courts, ranked for your macros</span><span id="updated"></span></div>
+  <hr class="thick">
+  <p id="loading">Loading menus…</p>
+</main>
+
+<script>
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = (v, d=0) => v == null ? "–" : (Math.round(v * 10**d) / 10**d).toLocaleString();
+
+const S = {data:null, date:null, meal:null, onlyHl:false, veg:false, vegan:false, q:""};
+try { Object.assign(S, JSON.parse(localStorage.getItem("mf-prefs") || "{}"), {date:null, meal:null, q:""}); } catch {}
+const savePrefs = () => { try { localStorage.setItem("mf-prefs", JSON.stringify({onlyHl:S.onlyHl, veg:S.veg, vegan:S.vegan})); } catch {} };
+
+fetch("data.json", {cache:"no-store"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { S.data = d; pickDefaults(); render(); })
+  .catch(() => { $("#loading").textContent = "Couldn't load menu data. If you just set this up, open the repo's Actions tab and run “Update dining data” once."; });
+
+function localISO(d=new Date()){ return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Indiana/Indianapolis"}).format(d); }
+function campusMinutes(){ const z = new Date(new Date().toLocaleString("en-US",{timeZone:"America/Indiana/Indianapolis"})); return z.getHours()*60 + z.getMinutes(); }
+const toMin = t => { if (!t) return null; const [h,m] = t.split(":").map(Number); return h*60+m; };
+
+function mealsFor(date){
+  const map = new Map();
+  for (const c of Object.values(S.data.days[date] || {}))
+    for (const m of c.meals) if (!map.has(m.name) || map.get(m.name).order > m.order) map.set(m.name, m);
+  return [...map.values()].sort((a,b) => (toMin(a.start) ?? a.order*600) - (toMin(b.start) ?? b.order*600) || a.order - b.order).map(m => m.name);
+}
+
+function pickDefaults(){
+  const today = localISO();
+  S.date = S.data.dates.includes(today) ? today : S.data.dates[0];
+  const meals = mealsFor(S.date);
+  let pick = meals[0];
+  if (S.date === today) {
+    const now = campusMinutes();
+    // earliest meal (across courts) that hasn't ended yet
+    const ends = {};
+    for (const c of Object.values(S.data.days[S.date])) for (const m of c.meals) {
+      const e = toMin(m.end); if (e != null) ends[m.name] = Math.max(ends[m.name] ?? 0, e);
+    }
+    pick = meals.find(n => (ends[n] ?? 24*60) > now) || meals[meals.length-1];
+  }
+  S.meal = pick;
+}
+
+function visible(it){
+  if (S.vegan && !it.vegan) return false;
+  if (S.veg && !(it.veg || it.vegan)) return false;
+  if (S.q && !it.name.toLowerCase().includes(S.q)) return false;
+  return true;
+}
+const isHl = it => it.protein || it.carb || it.lean;
+const cpp = it => it.n && it.n.p ? it.n.cal / it.n.p : Infinity;
+const cpc = it => it.n && it.n.c ? it.n.cal / it.n.c : Infinity;
+
+function scoreCourt(court){
+  const c = S.data.days[S.date]?.[court];
+  const meal = c?.meals.find(m => m.name === S.meal);
+  if (!meal) return {court, open:false, score:0};
+  const seen = new Set(), items = [];
+  for (const st of meal.stations) for (const it of st.items)
+    if (!seen.has(it.id) && it.n && visible(it)) { seen.add(it.id); items.push(it); }
+  const tier = (list, key, sortFn) => list.filter(i => i[key]).sort((a,b) => (a[key] === b[key] ? 0 : a[key] === "ideal" ? -1 : 1) || sortFn(a) - sortFn(b));
+  const lean = tier(items, "lean", cpp), protein = tier(items, "protein", cpp), carb = tier(items, "carb", cpc);
+  const pts = (list, n, ideal, close) => list.slice(0, n).reduce((s, i) => s + (i[list === lean ? "lean" : list === carb ? "carb" : "protein"] === "ideal" ? ideal : close), 0);
+  let score = pts(lean, 3, 3, 1.5) + pts(protein, 3, 2, 1) + pts(carb, 3, 2, 1);
+  if (protein.length && carb.length) score += 4; // can build a complete plate here
+  return {court, open:true, score, lean, protein, carb,
+    nIdeal: {lean: lean.filter(i=>i.lean==="ideal").length, protein: protein.filter(i=>i.protein==="ideal").length, carb: carb.filter(i=>i.carb==="ideal").length},
+    nClose: {lean: lean.filter(i=>i.lean==="close").length, protein: protein.filter(i=>i.protein==="close").length, carb: carb.filter(i=>i.carb==="close").length}};
+}
+
+function dateLabel(iso){
+  const today = localISO(), d = new Date(iso + "T12:00:00");
+  const tmr = new Date(today + "T12:00:00"); tmr.setDate(tmr.getDate()+1);
+  if (iso === today) return "Today";
+  if (iso === localISO(tmr)) return "Tomorrow";
+  return d.toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric"});
+}
+const clock = t => { const m = toMin(t); if (m == null) return ""; const h = Math.floor(m/60), mm = m%60; return `${((h+11)%12)+1}${mm ? ":" + String(mm).padStart(2,"0") : ""}${h < 12 ? "am" : "pm"}`; };
+
+function countsText(r){
+  const part = (k, word) => {
+    const i = r.nIdeal[k], c = r.nClose[k];
+    if (!i && !c) return null;
+    return `${i ? i : "no"} ${word}${i === 1 ? "" : "s"}${c ? ` (+${c} close)` : ""}`;
+  };
+  return [part("lean","lean main"), part("protein","protein"), part("carb","carb")].filter(Boolean).join(", ") || "Nothing near your targets";
+}
+
+function render(){
+  const D = S.data;
+  const ranks = D.courts.map(scoreCourt).sort((a,b) => b.open - a.open || b.score - a.score);
+  const max = Math.max(1, ...ranks.map(r => r.score));
+  const best = ranks.find(r => r.open && r.score > 0);
+  const anyIdeal = ranks.some(r => r.open && (r.nIdeal.protein || r.nIdeal.carb));
+
+  let hero;
+  if (!ranks.some(r => r.open)) {
+    hero = `<p class="verdict">No dining court lists ${esc(S.meal || "this meal")} on this day.</p>`;
+  } else if (!best) {
+    hero = `<p class="verdict">Nothing on the ${esc(S.meal.toLowerCase())} menus comes near your targets.</p><p class="note">Scroll down for the full menus; items without nutrition data can't be scored.</p>`;
+  } else {
+    const p = best.lean[0] || best.protein[0], c = best.carb[0];
+    const bits = [];
+    if (p) bits.push(`<strong>${esc(p.name)}</strong> (${fmt(p.n.p)} g protein, ${fmt(p.n.cal)} cal${p.n.na != null ? `, ${fmt(p.n.na)} mg sodium` : ""})`);
+    if (c) bits.push(`<strong>${esc(c.name)}</strong> (${fmt(c.n.c)} g carbs, ${fmt(c.n.cal)} cal)`);
+    hero = `<p class="verdict">${esc(best.court)} is your best bet for ${esc(S.meal.toLowerCase())}.</p>
+      ${bits.length ? `<p class="plate">Build the plate: ${bits.join(" with ")}.</p>` : ""}
+      ${!anyIdeal ? `<p class="note">Nothing hits your targets exactly today, so the closest options are highlighted with dashed marks.</p>` : ""}`;
+  }
+
+  const meals = mealsFor(S.date);
+  $("#app").innerHTML = `
+  <h1>Macro Facts</h1>
+  <div class="sub"><span>Purdue dining courts, ranked for your macros</span><span>Updated ${new Date(D.generated).toLocaleString("en-US",{weekday:"short",hour:"numeric",minute:"2-digit"})}</span></div>
+  <hr class="thick">
+  <div class="controls">
+    <div class="row" role="group" aria-label="Day"><span class="lbl">Day</span>${D.dates.map(d => `<button class="chip" data-date="${d}" aria-pressed="${d===S.date}">${dateLabel(d)}</button>`).join("")}</div>
+    <div class="row" role="group" aria-label="Meal"><span class="lbl">Meal</span>${meals.length ? meals.map(m => `<button class="chip" data-meal="${esc(m)}" aria-pressed="${m===S.meal}">${esc(m)}</button>`).join("") : `<span class="note">No menus published yet</span>`}</div>
+    <div class="row"><span class="lbl">Show</span>
+      <button class="chip" data-toggle="onlyHl" aria-pressed="${S.onlyHl}">Highlighted only</button>
+      <button class="chip" data-toggle="veg" aria-pressed="${S.veg}">Vegetarian</button>
+      <button class="chip" data-toggle="vegan" aria-pressed="${S.vegan}">Vegan</button>
+      <input class="search" type="search" placeholder="Find a dish" aria-label="Find a dish" value="${esc(S.q)}">
+    </div>
+  </div>
+  <hr class="thick">
+  ${hero}
+  <hr class="mid">
+  <div class="hdr"><span>Dining court</span><span>Macro score</span></div>
+  <hr class="thin">
+  <ol class="rank">${ranks.map(r => `<li>
+    <span class="court">${esc(r.court)}</span>
+    <span class="score">${r.open ? fmt(r.score,1) : `<span class="closed">Not serving</span>`}</span>
+    ${r.open ? `<span class="bar" aria-hidden="true"><i style="width:${100*r.score/max}%"></i></span><span class="counts">${countsText(r)}</span>` : ""}
+  </li>`).join("")}</ol>
+  <hr class="thick">
+  <div class="legend">
+    <span><span class="tag t-lean" style="margin:0">Lean main</span> protein ratio on target, low sodium</span>
+    <span><span class="tag t-protein" style="margin:0">Protein</span> ≤${D.rules.protein.ideal.max_cal_per_g} cal per g protein</span>
+    <span><span class="tag t-carb" style="margin:0">Carb</span> ≤${D.rules.carb.ideal.max_cal_per_g} cal per g carb, low sugar and sodium</span>
+    <span><span class="tag t-close" style="margin:0">Close</span> near-miss, reason shown underneath</span>
+  </div>
+  ${ranks.map((r, i) => courtSection(r, i === 0 && r.open)).join("")}
+  <div class="foot">
+    <p>Nutrition is per serving as listed by Purdue Dining. Build-your-own stations usually have no data and can't be scored.</p>
+    <p>Scores reward each court's best few options rather than its average, with a bonus when you can get both a protein and a carb there. Change the targets in <code>scripts/build_data.py</code>.</p>
+  </div>`;
+  bind();
+}
+
+function courtSection(r, open){
+  const c = S.data.days[S.date]?.[r.court];
+  const meal = c?.meals.find(m => m.name === S.meal);
+  let body;
+  if (!c?.published) body = `<p class="empty">No menu published for this day yet.</p>`;
+  else if (!meal) body = `<p class="empty">Not serving ${esc(S.meal || "this meal")}.</p>`;
+  else {
+    body = meal.stations.map(st => {
+      const items = st.items.filter(it => visible(it) && (!S.onlyHl || isHl(it)));
+      if (!items.length) return "";
+      return `<div class="station">${esc(st.name)}</div>
+        <div class="cols" aria-hidden="true"><span></span><span>Cal</span><span>Protein</span><span>Carbs</span><span>Fat</span><span>Sodium</span></div>
+        ${items.map(itemRow).join("")}`;
+    }).join("") || `<p class="empty">Nothing matches the current filters.</p>`;
+  }
+  const hours = meal && meal.start ? `${clock(meal.start)}–${clock(meal.end)}` : "";
+  return `<details class="court" ${open ? "open" : ""}>
+    <summary><h3>${esc(r.court)}</h3><span class="meta">${hours}${r.open ? `<br>score ${fmt(r.score,1)}` : ""}</span></summary>
+    ${body}
+  </details>`;
+}
+
+function itemRow(it){
+  const n = it.n, cls = ["item"], tags = [];
+  if (!n) cls.push("nodata");
+  if (it.lean === "ideal") { cls.push("hl-lean"); tags.push(`<span class="tag t-lean">Lean main</span>`); }
+  else if (it.protein === "ideal") { cls.push("hl-protein"); tags.push(`<span class="tag t-protein">Protein</span>`); if (it.lean === "close") tags.push(`<span class="tag t-close">Lean main, close</span>`); }
+  else if (it.protein === "close") { cls.push("close-protein"); tags.push(`<span class="tag t-close">Protein, close</span>`); }
+  if (it.carb === "ideal") { cls.push("hl-carb"); tags.push(`<span class="tag t-carb">Carb</span>`); }
+  else if (it.carb === "close") { cls.push("close-carb"); tags.push(`<span class="tag t-close">Carb, close</span>`); }
+  const ratio = n ? [it.protein ? `${fmt(cpp(it),1)} cal/g protein` : "", it.carb ? `${fmt(cpc(it),1)} cal/g carb` : ""].filter(Boolean).join(", ") : "";
+  const why = it.why && it.why.length ? it.why.join("; ") : "";
+  const diet = it.vegan ? " (vegan)" : it.veg ? " (veg)" : "";
+  return `<div class="${cls.join(" ")}">
+    <div><span class="name">${esc(it.name)}</span><span style="color:var(--muted);font-size:.82rem">${diet}</span>${tags.join("")}
+      ${ratio ? `<span class="ratio">${ratio}${n.serving ? `, serving ${esc(n.serving)}` : ""}</span>` : ""}
+      ${why ? `<span class="why">Close because: ${esc(why)}</span>` : ""}
+      ${!n ? `<span class="ratio">No nutrition data</span>` : ""}</div>
+    <span class="v" data-k="Cal">${n ? fmt(n.cal) : "–"}</span>
+    <span class="v" data-k="P">${n ? fmt(n.p) + "g" : "–"}</span>
+    <span class="v" data-k="C">${n ? fmt(n.c) + "g" : "–"}</span>
+    <span class="v" data-k="F">${n ? fmt(n.f) + "g" : "–"}</span>
+    <span class="v" data-k="Na">${n ? fmt(n.na) + "mg" : "–"}</span>
+  </div>`;
+}
+
+function bind(){
+  document.querySelectorAll("[data-date]").forEach(b => b.onclick = () => {
+    S.date = b.dataset.date; const ms = mealsFor(S.date); if (!ms.includes(S.meal)) S.meal = ms[0]; render(); });
+  document.querySelectorAll("[data-meal]").forEach(b => b.onclick = () => { S.meal = b.dataset.meal; render(); });
+  document.querySelectorAll("[data-toggle]").forEach(b => b.onclick = () => {
+    const k = b.dataset.toggle; S[k] = !S[k]; if (k === "vegan" && S.vegan) S.veg = false; if (k === "veg" && S.veg) S.vegan = false; savePrefs(); render(); });
+  const q = $(".search");
+  q.oninput = () => { S.q = q.value.trim().toLowerCase(); const pos = q.selectionStart; render(); const n = $(".search"); n.focus(); n.setSelectionRange(pos, pos); };
+}
+</script>
+</body>
+</html>

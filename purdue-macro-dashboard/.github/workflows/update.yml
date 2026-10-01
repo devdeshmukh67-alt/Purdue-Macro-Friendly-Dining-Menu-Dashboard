@@ -1,0 +1,40 @@
+name: Update dining data
+
+on:
+  schedule:
+    - cron: "15 9 * * *"    # ~5:15am Eastern (EDT) / 4:15am (EST)
+    - cron: "15 15 * * *"   # midday refresh in case menus change
+  workflow_dispatch: {}      # "Run workflow" button in the Actions tab
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch menus and nutrition
+        run: python scripts/build_data.py --days 3 --out site/data.json
+      - name: Add dashboard page
+        run: cp web/index.html site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
