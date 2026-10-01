@@ -29,9 +29,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Fetch menus and nutrition
-        run: python scripts/build_data.py --days 3 --out site/data.json
+        run: python build_data.py --days 3 --out site/data.json
       - name: Add dashboard page
-        run: cp web/index.html site/index.html
+        run: cp index.html site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -5,7 +5,7 @@ Fetch Purdue dining court menus + nutrition and tag macro-friendly items.
 Writes site/data.json, which web/index.html reads. Standard library only,
 so the GitHub Action needs no pip installs.
 
-Usage:  python scripts/build_data.py [--days 3] [--out site/data.json]
+Usage:  python build_data.py [--days 3] [--out site/data.json]
 """
 from __future__ import annotations
 
